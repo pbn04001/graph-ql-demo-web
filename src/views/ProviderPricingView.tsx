@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { withApollo } from 'react-apollo'
 import { ApolloClient, InMemoryCache } from 'apollo-boost';
 import { useQuery } from 'react-apollo-hooks';
 import { Providers_providers} from "../queries/types/Providers";
@@ -28,8 +27,7 @@ const ProvidersPricingView: React.FC<ProvidersPricingViewProps> = ({
   const [count, setCount ] = useState<number>(0)
   const [prices, updatePrices ] = useState<{ [key: number]: number }>({})
   const { data: newPrices, stopPolling } = useQuery<ProviderPrices, ProviderPricesVariables>(providerPricesQuery, {
-    client,
-    pollInterval: 1000,
+    client: client as any,
     variables: { uuid: providers.uuid }
   })
 
