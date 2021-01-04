@@ -27,7 +27,8 @@ const ProvidersPricingView: React.FC<ProvidersPricingViewProps> = ({
   const [count, setCount ] = useState<number>(0)
   const [prices, updatePrices ] = useState<{ [key: number]: number }>({})
   const { data: newPrices, stopPolling } = useQuery<ProviderPrices, ProviderPricesVariables>(providerPricesQuery, {
-    client: client as any,
+    client,
+    pollInterval: 1000,
     variables: { uuid: providers.uuid }
   })
 

@@ -13,7 +13,7 @@ const JobsView: React.FC = () => {
     <div className="App">
       <Query<Skills, SkillsVariables>
         query={skillsQuery}
-        variables={{ type: SkillType.DATABASE}}
+        variables={{ type: SkillType.DATABASE }}
       >
         {({data}) => (
           <>
