@@ -1,29 +1,24 @@
-const { exec } = require('child_process');
+const exec = require('await-exec');
+const path = require('path');
 
-async function execute(command) {
-  return new Promise((resolve, reject) => {
-    exec(command, (err, stdout, stderr) => {
-      if (err) {
-        reject(err)
-      } else {
-        if (stderr) {
-          reject(stderr)
-        }
-        if (stdout) {
-          console.log(`stdout: ${stdout}`);
-          resolve(true)
-        }
-      }
-    });
-  })
+const GRAPHQL_SERVER = 'http://localhost:3000/graphql';
+
+// Will need to have a graphql auth token, and set it in your local environment
+// export GRAPHQL_TOKEN=your_token_here
+
+async function buildGraphql() {
+  // Retrieve the full schema from our graphql endpoint
+  await exec(`apollo client:download-schema --endpoint=${GRAPHQL_SERVER} ./schema.graphql`); // eslint-disable-line
+  // Dynamically generate Typescript objects based on our application queries
+  await exec(`graphql-codegen --config codegen.yml`);
 }
 
-(async function() {
-  try {
-    await execute('apollo schema:download --endpoint=http://localhost:3000/graphql graphql-schema.json')
-    await execute('apollo codegen:generate --localSchemaFile=graphql-schema.json --target=typescript --includes=src/**/*.ts --tagName=gql --addTypename --globalTypesFile=src/types/graphql-global-types.ts types')
-  } catch (error) {
-    console.log(error)
-  }
-})()
-
+buildGraphql()
+    .then(value => {
+      if (value) {
+        console.log('Successfully build graphql queries'); // eslint-disable-line
+      }
+    }).catch(e => {
+  console.log(e); // eslint-disable-line
+  process.exit(1);
+});

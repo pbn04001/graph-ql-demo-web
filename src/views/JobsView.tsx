@@ -1,19 +1,17 @@
 import React from 'react';
 import { Query } from 'react-apollo'
 
-import skillsQuery from '../queries/skills'
-import jobsQuery from '../queries/jobs'
-import {Skills, SkillsVariables} from '../queries/types/Skills'
-import {Jobs, JobsVariables} from "../queries/types/Jobs";
-import {SkillType, State} from "../types/graphql-global-types";
+import skillsQuery from '../graphql/queries/skills'
+import jobsQuery from '../graphql/queries/jobs'
+import {SkillsQuery, SkillsQueryVariables, JobsQuery, JobsQueryVariables, SkillType, State} from '../graphql/types/types'
 
 const JobsView: React.FC = () => {
 
   return (
     <div className="App">
-      <Query<Skills, SkillsVariables>
+      <Query<SkillsQuery, SkillsQueryVariables>
         query={skillsQuery}
-        variables={{ type: SkillType.DATABASE }}
+        variables={{ type: SkillType.Database }}
       >
         {({data}) => (
           <>
@@ -26,9 +24,9 @@ const JobsView: React.FC = () => {
           </>
         )}
       </Query>
-      <Query<Jobs, JobsVariables>
+      <Query<JobsQuery, JobsQueryVariables>
         query={jobsQuery}
-        variables={{ state: State.CO }}
+        variables={{ state: State.Co }}
       >
         {({data}) => (
           <>

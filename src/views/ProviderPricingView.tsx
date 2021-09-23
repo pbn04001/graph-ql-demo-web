@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { ApolloClient, InMemoryCache } from 'apollo-boost';
 import { useQuery } from 'react-apollo-hooks';
-import { Providers_providers} from "../queries/types/Providers";
-import {ProviderPrices, ProviderPricesVariables } from "../queries/types/ProviderPrices";
-import providerPricesQuery from "../queries/providerPrices";
+import {
+  ProviderListFragment,
+  ProviderPricesQuery,
+  ProviderPricesQueryVariables
+} from "../graphql/types/types";
+import providerPricesQuery from "../graphql/queries/providerPrices";
 
 const renderPrice = (count: number, price?: number) => {
   if (price) {
@@ -16,7 +19,7 @@ const renderPrice = (count: number, price?: number) => {
 
 type ProvidersPricingViewProps = {
   client: ApolloClient<InMemoryCache>,
-  providers: Providers_providers,
+  providers: ProviderListFragment,
 }
 
 const ProvidersPricingView: React.FC<ProvidersPricingViewProps> = ({
@@ -26,7 +29,7 @@ const ProvidersPricingView: React.FC<ProvidersPricingViewProps> = ({
   console.log("UUID", providers.uuid)
   const [count, setCount ] = useState<number>(0)
   const [prices, updatePrices ] = useState<{ [key: number]: number }>({})
-  const { data: newPrices, stopPolling } = useQuery<ProviderPrices, ProviderPricesVariables>(providerPricesQuery, {
+  const { data: newPrices, stopPolling } = useQuery<ProviderPricesQuery, ProviderPricesQueryVariables>(providerPricesQuery, {
     client,
     pollInterval: 1000,
     variables: { uuid: providers.uuid }

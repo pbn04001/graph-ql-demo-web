@@ -2,8 +2,8 @@ import React from 'react';
 import { withApollo } from 'react-apollo'
 import { ApolloClient, InMemoryCache } from 'apollo-boost';
 import { useQuery } from 'react-apollo-hooks';
-import providerQuery from '../queries/providers'
-import {Providers as ProvidersGQL } from "../queries/types/Providers";
+import providerQuery from '../graphql/queries/providers'
+import { ProvidersQuery } from "../graphql/types/types";
 import ProvidersPricingView from "./ProviderPricingView";
 
 type ProvidersViewProps = {
@@ -13,7 +13,7 @@ type ProvidersViewProps = {
 const ProvidersView: React.FC<ProvidersViewProps> = ({
   client,
 }: ProvidersViewProps) => {
-  const { data: providers, loading } = useQuery<ProvidersGQL>(providerQuery, { client })
+  const { data: providers, loading } = useQuery<ProvidersQuery>(providerQuery, { client })
 
   return (
     <>
