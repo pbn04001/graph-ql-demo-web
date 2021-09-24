@@ -1,12 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { withApollo } from 'react-apollo'
-import { ApolloClient, ApolloLink, InMemoryCache, HttpLink } from 'apollo-boost';
-import { ApolloProvider } from 'react-apollo'
+import { withApollo } from '@apollo/client/react/hoc';
+import { ApolloClient, ApolloLink, ApolloProvider, HttpLink, InMemoryCache } from '@apollo/client';
 
 import App from './App';
 
 import './index.css';
+
 
 const url = 'http://localhost:3000/graphql'
 

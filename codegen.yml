@@ -7,5 +7,5 @@ generates:
       - "typescript"
       - "typescript-operations"
     config:
-      maybeValue: T | undefined
+      maybeValue: T
       skipTypename: true

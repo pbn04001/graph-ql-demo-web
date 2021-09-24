@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { ApolloClient, InMemoryCache } from 'apollo-boost';
-import { useQuery } from 'react-apollo-hooks';
+
 import {
   ProviderListFragment,
   ProviderPricesQuery,
   ProviderPricesQueryVariables
 } from "../graphql/types/types";
 import providerPricesQuery from "../graphql/queries/providerPrices";
+import { useQuery } from '@apollo/client';
 
 const renderPrice = (count: number, price?: number) => {
   if (price) {
@@ -18,19 +18,15 @@ const renderPrice = (count: number, price?: number) => {
 }
 
 type ProvidersPricingViewProps = {
-  client: ApolloClient<InMemoryCache>,
   providers: ProviderListFragment,
 }
 
 const ProvidersPricingView: React.FC<ProvidersPricingViewProps> = ({
- client,
  providers,
 }: ProvidersPricingViewProps) => {
-  console.log("UUID", providers.uuid)
   const [count, setCount ] = useState<number>(0)
   const [prices, updatePrices ] = useState<{ [key: number]: number }>({})
   const { data: newPrices, stopPolling } = useQuery<ProviderPricesQuery, ProviderPricesQueryVariables>(providerPricesQuery, {
-    client,
     pollInterval: 1000,
     variables: { uuid: providers.uuid }
   })
